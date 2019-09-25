@@ -2684,7 +2684,17 @@ public class PgResultSet implements ResultSet, org.postgresql.PGRefCursorResultS
       s = "-" + s.substring(2);
     }
 
-    return s;
+    // make sure no commas are in the return string
+    StringBuilder sb = new StringBuilder();
+    for(int i=0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == ',') {
+        continue;
+      }
+      sb.append(c);
+    }
+
+    return sb.toString();
   }
 
   protected String getPGType(int column) throws SQLException {
